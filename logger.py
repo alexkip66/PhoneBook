@@ -2,6 +2,7 @@ from data_create import name_data, surname_data, phone_data, address_data
 from filer import read_first_var, read_second_var, write_first_var, write_second_var
 
 
+#  Ввод данных 
 def input_data():
     name = name_data()
     surname = surname_data()
@@ -26,29 +27,16 @@ def input_data():
             f.write(f"{name};{surname};{phone};{address}\n\n")     
 
 
+#  Печать списков контактов, сохраненных в файлах
 def print_data():
     print("Вывожу данные из 1 файла: \n")
-    # with open("data_first_variant.csv", "r", encoding="utf-8") as f:
-    #     data_first = f.readlines()
-    #     print(*data_first,"\n")
-    #     # data_first_list = []
-    #     # j = 0
-    #     # for i in range(len(data_first)):
-    #     #     if data_first[i] == "\n" or i == len(data_first) - 1:
-    #     #         data_first_list.append("".join(data_first[j:i+1]))
-    #     #         j = i
-    #     # print(*data_first_list,"\n")
     data_first = read_first_var()
     for record in data_first:
         for field in record:
             print(field)
         print()
 
-
     print("Вывожу данные из 2 файла: \n")
-    # with open("data_second_variant.csv", "r", encoding="utf-8") as f:
-    #     data_second = f.readlines()
-    #     print(*data_second,"\n")
     data_second = read_second_var()
     for record in data_second:
         print(";".join(record))
@@ -56,7 +44,8 @@ def print_data():
 
 
 
-
+#  Удаление контакта из выбранного списка и сохранение списка в файле
+#  Поиск контакта производится по имени
 def delete_data():
     print("Удаляем данные")
     var = int(input(f"\nИз какого файла удалять данные? \n\n"
@@ -96,6 +85,8 @@ def delete_data():
 
 
 
+#  Редактирование контакта в выбранном списке и сохранение списка в файле
+#  Поиск контакта производится по имени
 def edit_data():
     print("Редактируем данные")
     var = int(input(f"\nВ каком файла редактировать данные? \n\n"
@@ -146,5 +137,3 @@ def edit_data():
                     write_second_var(data_second)  
             else:
                 print("КОНТАКТ НЕ НАЙДЕН!\n")    
-
-# print_data()

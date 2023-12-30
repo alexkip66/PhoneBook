@@ -1,11 +1,12 @@
+#  Чтение списка контактов из файла вариант 1
+#  Список контактов сохраняется в массиве
 def read_first_var():
     with open("data_first_variant.csv", "r", encoding="utf-8") as f:
         data_first = f.readlines()
-        # print(*data_first,"\n")
         data_first_list = []
         record = []
         for line in data_first:
-            if line not in ["","\n"]:   #!= "\n" and line != "":
+            if line not in ["","\n"]:
                 record.append(line.replace("\n", ""))
             else:
                 data_first_list.append(record)
@@ -14,10 +15,11 @@ def read_first_var():
 
 
 
+#  Чтение списка контактов из файла вариант 2
+#  Список контактов сохраняется в массиве
 def read_second_var():
     with open("data_second_variant.csv", "r", encoding="utf-8") as f:
         data_second = f.readlines()
-        # print(*data_second,"\n")
         data_second_list = []
         for line in data_second:
             data_second_list.append(line.replace("\n", "").split(";"))
@@ -25,6 +27,8 @@ def read_second_var():
 
 
 
+#  Запись списка контактов в файл вариант 1
+#  Список контактов хранится в массиве
 def write_first_var(data):
     with open("data_first_variant.csv", "w", encoding="utf-8") as f:
         for record in data:
@@ -35,7 +39,8 @@ def write_first_var(data):
 
 
 
-
+#  Запись списка контактов в файл вариант 2
+#  Список контактов хранится в массиве
 def write_second_var(data):
     with open("data_second_variant.csv", "w", encoding="utf-8") as f:
         for record in data:

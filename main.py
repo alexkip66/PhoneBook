@@ -1,6 +1,7 @@
 import os
 from ui import interface
 
+#  Вывод первоначального экрана на консоль
 if __name__ == '__main__':
     os.system('cls' if os.name == 'nt' else 'clear')
     print(" ***********************************************************************\n", \
