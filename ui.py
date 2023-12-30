@@ -1,16 +1,37 @@
-from logger import input_data, print_data
+from logger import input_data, print_data, edit_data, delete_data
+
 
 def interface():
-    print("Добрый день! Вы попали на специальный бот-справочник от GeekBrains! \n \
-        1 - Запись данных \n \
-        2 - Вывод данных")
-    command = int(input("Введите число "))
+    # print(" ***********************************************************************\n", \
+    #         "* Добрый день! Вы попали на специальный бот-справочник от GeekBrains! *\n", \
+    #         "***********************************************************************\n", \
+    command = 1
     
-    while command != 1 and command != 2:
-        print("Неправильный ввод!")
-        command = int(input("Введите число "))
-        
-    if command == 1:
-        input_data()
-    if command == 2:
-        print_data()
+    while command > 0:
+        print(
+            "ГЛАВНОЕ МЕНЮ \n",
+            "1 - Просмотр данных \n",
+            "2 - Ввод данных \n",
+            "3 - Изменение данных \n",
+            "4 - Удаление данных \n",
+            "0 - Завершение работы",
+        )
+        command = int(input("\nВведите число: "))
+
+        while command < 0 or command > 4:
+            print("Неправильный ввод!")
+            command = int(input("Введите число: "))
+
+
+        match command:
+            case 1:
+                print_data()
+            case 2:
+                input_data()
+            case 3:
+                edit_data()
+            case 4:
+                delete_data()
+            case 0:
+                pass
+
