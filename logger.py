@@ -44,9 +44,36 @@ def print_data():
 
 
 
+# Поиск контякта
+#  Поиск производится по имени и фамилии
+def find_data(action, data):
+    name_list = list(' '.join(data[i][j] for j in range(2)) for i in range(len(data)))
+    match action:
+        case 3:
+            message = ", который хотите изменить"
+        case 4:
+            message = ", который хотите удалить"
+    contact_for_search = ' '.join(list(input(f"Введите имя и фамилию контакта{message}: ").split()[:2]))
+    if contact_for_search in name_list:
+        found_index = name_list.index(contact_for_search) 
+    else:
+        found_index = None
+        print("ЗАПИСЬ НЕ НАЙДЕНА!\n")
+    return found_index
+
+
+
 #  Удаление контакта из выбранного списка и сохранение списка в файле
 #  Поиск контакта производится по имени
 def delete_data():
+    
+    def delete(data, index):
+        answer = input(f'Вы хотите удалить запись "{";".join(data[index])}"? (y/N) ')
+        if answer.lower() == "y":
+            data.pop(index)
+            print("ЗАПИСЬ УДАЛЕНА!\n")
+        return data        
+    
     print("Удаляем данные")
     var = int(input(f"\nИз какого файла удалять данные? \n\n"
         f"Выберите 1 или 2 вариант: "))
@@ -57,37 +84,38 @@ def delete_data():
     
     match var:
         case 1:
-            data_first = read_first_var()
-            name_to_del = input("Введите имя контакта, который хотите удалить: ")
-            name_list = list(data_first[i][0] for i in range(len(data_first)))
-            if name_to_del in name_list:
-                index_del = name_list.index(name_to_del)
-                answer = input(f'Вы хотите удалить запись "{";".join(data_first[index_del])}"? (y/N) ')
-                if answer.lower() == "y":
-                    data_first.pop(index_del)
-                    print("ЗАПИСЬ УДАЛЕНА!\n")
-                    write_first_var(data_first) 
-            else:
-                print("КОНТАКТ НЕ НАЙДЕН!/n")           
+            data_first = read_first_var()        
+            index_del = find_data(4, data_first)
+            if index_del != None:
+                data_first = delete(data_first, index_del)
+                write_first_var(data_first) 
         case 2:
             data_second = read_second_var()
-            name_to_del = input("Введите имя контакта, который хотите удалить: ")
-            name_list = list(data_second[i][0] for i in range(len(data_second)))
-            if name_to_del in name_list:
-                index_del = name_list.index(name_to_del)
-                answer = input(f'Вы хотите удалить запись "{";".join(data_second[index_del])}"? (y/N) ')
-                if answer.lower() == "y":
-                    data_second.pop(index_del)
-                    print("ЗАПИСЬ УДАЛЕНА!\n")
-                    write_second_var(data_second) 
-            else:
-                print("КОНТАКТ НЕ НАЙДЕН!\n")   
+            index_del = find_data(4, data_second)        
+            if index_del != None:
+                data_second = delete(data_second, index_del)
+                write_second_var(data_second) 
 
 
 
 #  Редактирование контакта в выбранном списке и сохранение списка в файле
-#  Поиск контакта производится по имени
+#  Поиск контакта производится по имени и фамилии
 def edit_data():
+    
+    def edit(data, index):
+        name = name_data(data[index_edit][0])
+        surname = surname_data(data[index_edit][1])
+        phone = phone_data(data[index_edit][2])
+        address = address_data(data[index_edit][3])
+        answer = input(f'Вы хотите сохранить изменения? (Y/n) ')
+        if answer.lower() == "y" or answer == '':                
+            data[index_edit][0] = name                
+            data[index_edit][1] = surname
+            data[index_edit][2] = phone
+            data[index_edit][3] = address 
+            print("ИЗМЕНЕНИЯ СОХРАНЕНЫ!\n")
+        return data     
+    
     print("Редактируем данные")
     var = int(input(f"\nВ каком файла редактировать данные? \n\n"
         f"Выберите 1 или 2 вариант: "))
@@ -99,41 +127,16 @@ def edit_data():
     match var:
         case 1:
             data_first = read_first_var()
-            name_to_edit = input("Введите имя контакта, который хотите изменить: ")
-            name_list = list(data_first[i][0] for i in range(len(data_first)))
-            if name_to_edit in name_list:
-                index_edit = name_list.index(name_to_edit)
-                name = name_data(data_first[index_edit][0])
-                surname = surname_data(data_first[index_edit][1])
-                phone = phone_data(data_first[index_edit][2])
-                address = address_data(data_first[index_edit][3])
-                answer = input(f'Вы хотите сохранить изменения? (Y/n) ')
-                if answer.lower() == "y" or answer == '':                
-                    data_first[index_edit][0] = name                
-                    data_first[index_edit][1] = surname
-                    data_first[index_edit][2] = phone
-                    data_first[index_edit][3] = address 
-                    print("ИЗМЕНЕНИЯ СОХРАНЕНЫ!\n")                
-                    write_first_var(data_first) 
-            else:
-                print("КОНТАКТ НЕ НАЙДЕН!\n")               
+            print(data_first)
+            index_edit = find_data(3, data_first)
+            print(index_edit)        
+            if index_edit != None:
+                data_first = edit(data_first, index_edit)
+                print(data_first)
+                write_first_var(data_first)         
         case 2:
-            data_second = read_second_var()
-            name_to_edit = input("Введите имя контакта, который хотите удалить: ")
-            name_list = list(data_second[i][0] for i in range(len(data_second)))
-            if name_to_edit in name_list:
-                index_edit = name_list.index(name_to_edit)
-                name = name_data(data_second[index_edit][0])
-                surname = surname_data(data_second[index_edit][1])
-                phone = phone_data(data_second[index_edit][2])
-                address = address_data(data_second[index_edit][3])
-                answer = input(f'Вы хотите сохранить изменения? (Y/n) ')
-                if answer.lower() == "y" or answer == '':                
-                    data_second[index_edit][0] = name                
-                    data_second[index_edit][1] = surname
-                    data_second[index_edit][2] = phone
-                    data_second[index_edit][3] = address  
-                    print("ИЗМЕНЕНИЯ СОХРАНЕНЫ!\n")                   
-                    write_second_var(data_second)  
-            else:
-                print("КОНТАКТ НЕ НАЙДЕН!\n")    
+            data_second = read_second_var()        
+            index_edit = find_data(3, data_second)        
+            if index_edit != None:
+                data_second = edit(data_second, index_edit)             
+                write_second_var(data_second)
