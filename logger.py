@@ -24,7 +24,7 @@ def input_data():
             f.write(f"{name}\n{surname}\n{phone}\n{address}\n\n")
     elif var == 2:
         with open("data_second_variant.csv", "a", encoding="utf-8") as f:
-            f.write(f"{name};{surname};{phone};{address}\n\n")     
+            f.write(f"{name};{surname};{phone};{address}\n")     
 
 
 #  Печать списков контактов, сохраненных в файлах
@@ -91,11 +91,10 @@ def delete_data():
                 write_first_var(data_first) 
         case 2:
             data_second = read_second_var()
-            index_del = find_data(4, data_second)        
+            index_del = find_data(4, data_second)
             if index_del != None:
                 data_second = delete(data_second, index_del)
                 write_second_var(data_second) 
-
 
 
 #  Редактирование контакта в выбранном списке и сохранение списка в файле
@@ -127,12 +126,9 @@ def edit_data():
     match var:
         case 1:
             data_first = read_first_var()
-            print(data_first)
             index_edit = find_data(3, data_first)
-            print(index_edit)        
             if index_edit != None:
                 data_first = edit(data_first, index_edit)
-                print(data_first)
                 write_first_var(data_first)         
         case 2:
             data_second = read_second_var()        
